@@ -10,6 +10,7 @@ import seaborn as sns
 import numpy as np
 from scipy.stats import randint, uniform
 
+
 def train():
     """
     Train an XGBoost regression model to predict real estate prices.
