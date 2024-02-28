@@ -43,10 +43,10 @@ data = pd.read_csv("data/properties.csv")
     
         # Define features to use
 num_features = ["nbr_frontages", 'nbr_bedrooms',"latitude", "longitude", "total_area_sqm",
-                     'surface_land_sqm','terrace_sqm','garden_sqm']
-fl_features = ["fl_terrace", 'fl_garden', 'fl_swimming_pool']
+                     'surface_land_sqm','terrace_sqm','garden_sqm', 'cadastral_income', 'primary_energy_consumption_sqm']
+fl_features = ["fl_terrace", 'fl_garden', 'fl_swimming_pool', 'fl_furnished', 'fl_open_fire', 'fl_floodzone', 'fl_double_glazing']
 cat_features = ["province", 'heating_type', 'state_building',
-                    "property_type", "epc", 'locality', 'subproperty_type','region']
+                    "property_type", "epc", 'locality', 'subproperty_type','region', 'equipped_kitchen']
 
     # Split the data into features and target
 X = data[num_features + fl_features + cat_features]
