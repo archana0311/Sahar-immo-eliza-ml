@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 from scipy.stats import randint, uniform
-
+import xgboost as xgb
 
 
 def features():
@@ -89,6 +89,55 @@ test_score = r2_score(y_test, final_model.predict(X_test))
 print(f"Train R² score: {train_score}")
 print(f"Test R² score: {test_score}")
 
+# Extract feature importance
+feature_importance = final_model.feature_importances_
+
+    # Get the names of the features
+feature_names = X_train.columns
+
+    # Sort feature importance in descending order
+sorted_indices = np.argsort(feature_importance)[::-1]
+
+    # Print feature importance scores with corresponding names
+print("Feature Importance Scores:")
+for i, idx in enumerate(sorted_indices):
+        print(f"{i+1}. Feature '{feature_names[idx]}': {feature_importance[idx]}")
+
+    # Select top N features
+top_n = 15  # Change this to select a different number of top features
+top_features = sorted_indices[:top_n]
+
+print("\nTop", top_n, "Features:")
+for i, idx in enumerate(top_features):
+        print(f"{i+1}. Feature '{feature_names[idx]}'")
+
+
+xgb.plot_importance(final_model, max_num_features =10, ax=plt.gca())
+plt.xlabel('Importance')
+plt.ylabel('Feature')
+plt.title('Feature Importances for numeric Features')
+plt.savefig("fig.png", transparent=True, dpi=600)
+plt.show()
+
+
+# Create a dictionary mapping feature names to importances
+feature_importance_dict = dict(zip(fl_features, feature_importance))
+
+# Sort the dictionary by importances in descending order
+sorted_features = sorted(feature_importance_dict.items(), key=lambda x: x[1], reverse=True)
+
+# Extract feature names and importances for plotting
+features = [x[0] for x in sorted_features]
+importances = [x[1] for x in sorted_features]
+
+# Plot the feature importances
+plt.figure(figsize=(10, 6))
+plt.barh(features, importances)
+plt.xlabel('Importance')
+plt.ylabel('Feature')
+plt.title('Feature Importances for Flag Features')
+plt.show()
+plt.savefig("fig.png", transparent = True, dpi=600)
 
 # Extract feature importance
 feature_importance = final_model.feature_importances_
